@@ -23,31 +23,62 @@ public:
         
     }
     */
-    int rob(vector<int>& nums) {
+    // int rob(vector<int>& nums) {
         
-        int ind = nums.size();
+    //     int ind = nums.size();
        
-        vector<int>dp(ind,0);
+    //     vector<int>dp(ind,0);
         
-        dp[0] = nums[0];
+    //     dp[0] = nums[0];
         
-        int i;
-        if(i == 0){
-            return nums[0];
-        }
+    //     int i;
+    //     if(i == 0){
+    //         return nums[0];
+    //     }
         
-        if(i < 0){
-            return 0;
-        }
+    //     if(i < 0){
+    //         return 0;
+    //     }
         
-        for(i = 1; i < ind; i++){
-            int peek = nums[i];
+    //     for(i = 1; i < ind; i++){
+    //         int peek = nums[i];
             
-            if(i > 1)peek += dp[i-2];
-            int npeek = 0 + dp[i-1];
-            dp[i] = max(peek,npeek);
+    //         if(i > 1)peek += dp[i-2];
+    //         int npeek = 0 + dp[i-1];
+    //         dp[i] = max(peek,npeek);
+    //     }
+    //     return dp[ind-1];
+
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        
+        // Handle edge cases
+        if (n == 0) return 0;
+        if (n == 1) return nums[0];
+
+        // Initialize dp array
+        vector<int> dp(n, 0);
+        dp[0] = nums[0];
+        dp[1] = max(nums[0], nums[1]);
+
+        // Fill dp array using bottom-up approach
+        for (int i = 2; i < n; i++) {
+            int robCurrent = nums[i] + dp[i - 2];  // Rob this house and add the amount from two houses back
+            int skipCurrent = dp[i - 1];           // Skip this house and take the max from the previous house
+            dp[i] = max(robCurrent, skipCurrent);  // Choose the maximum of robbing or skipping
         }
-        return dp[ind-1];
+        
+        return dp[n - 1];  // The last element contains the maximum loot
+    }
+};
+
         /*
         //return f(n - 1, nums,dp);
          int prev2 = nums[0];
